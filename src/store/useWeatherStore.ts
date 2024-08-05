@@ -6,18 +6,9 @@ interface Geo {
   lon: number;
 }
 
-interface WeatherData {
-  main: {
-    temp: number;
-    feels_like: number;
-  };
-  weather: {
-    description: string;
-  }[];
-}
 
 export function useWeatherStore() {
-  const weatherData = ref<WeatherData | null>(null);
+  const weatherData = ref(null);
   const isLoading = ref<boolean>(false);
   const error = ref<string | null>(null);
 
@@ -45,7 +36,7 @@ export function useWeatherStore() {
         lon: data[0].lon
       };
 
-      const { data: weather } = await axios.get<WeatherData>('https://api.openweathermap.org/data/2.5/weather', {
+      const { data: weather } = await axios.get('https://api.openweathermap.org/data/2.5/weather', {
         params: {
           lat: geo.lat,
           lon: geo.lon,

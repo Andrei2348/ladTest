@@ -19,14 +19,14 @@
   </div>
 </template>
   
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useWeatherStore } from '../store/useWeatherStore';
 const weatherStore = useWeatherStore();
 
-const inputValue = ref('');
-const handleGetCity = () => {
+const inputValue = ref<string>('');
+const handleGetCity = (): void => {
   if(inputValue.value.length > 0){
     weatherStore.fetchWeather(inputValue.value);
   }

@@ -1,21 +1,22 @@
 import { defineStore } from 'pinia';
-import { ref } from 'vue';
+import axios from 'axios';
 
-export const useCurrencyStore = defineStore('currency', () => {
-  const rates = ref({
-    USD: 1,
-    EUR: 0.85,
-    GBP: 0.75,
-    // Добавьте другие валюты по необходимости
-  });
-
-  const convert = (amount, fromCurrency, toCurrency) => {
-    const rate = rates.value[toCurrency] / rates.value[fromCurrency];
-    return amount * rate;
-  };
-
-  return {
-    rates,
-    convert,
-  };
+export const useCurrencyStore = defineStore({
+  id: 'currency',
+  state: () => ({
+    baseCurrency: 'USD', 
+    quoteCurrency: 'EUR', 
+    exchangeRate: 0, 
+  }),
+  actions: {
+    async fetchExchangeRate() {
+      try {
+        const response = await axios.get('https://api.exchangerate-api.com/v4/latest/' + this.baseCurrency);
+        this.exchangeRate = response.data.rates[this.quoteCurrency];
+        console.log(this.exchangeRate)
+      } catch (error) {
+        console.error('Ошибка при получении курса валют:', error);
+      }
+    },
+  },
 });
