@@ -5,56 +5,56 @@
         <label for="amount">Amount:</label>
         <input v-model.number="amount" id="amount" type="number" />
       </div>
-      <div>
+      <!-- <div>
         <label for="from">From:</label>
         <select v-model="fromCurrency" id="from">
           <option v-for="currency in currencies" :key="currency" :value="currency">{{ currency }}</option>
         </select>
-      </div>
-      <div>
+      </div> -->
+      <!-- <div>
         <label for="to">To:</label>
         <select v-model="toCurrency" id="to">
           <option v-for="currency in currencies" :key="currency" :value="currency">{{ currency }}</option>
         </select>
-      </div>
-      <div>
+      </div> -->
+      <!-- <div>
         <button @click="convertCurrency">Convert</button>
-      </div>
-      <div v-if="result !== null">
+      </div> -->
+      <!-- <div v-if="result !== null">
         <p>{{ amount }} {{ fromCurrency }} = {{ result }} {{ toCurrency }}</p>
-      </div>
+      </div> -->
     </div>
   </template>
   
   <script>
-  import { ref } from 'vue';
-  import { useCurrencyStore } from './stores/currencyStore';
+  // import { ref } from 'vue';
+  // import { useCurrencyStore } from './stores/currencyStore';
   
-  export default {
-    setup() {
-      const currencyStore = useCurrencyStore();
+  // export default {
+    // setup() {
+    //   const currencyStore = useCurrencyStore();
   
-      const amount = ref(0);
-      const fromCurrency = ref('USD');
-      const toCurrency = ref('EUR');
-      const result = ref(null);
+    //   const amount = ref(0);
+    //   const fromCurrency = ref('USD');
+    //   const toCurrency = ref('EUR');
+    //   const result = ref(null);
   
-      const currencies = Object.keys(currencyStore.rates);
+    //   const currencies = Object.keys(currencyStore.rates);
   
-      const convertCurrency = () => {
-        result.value = currencyStore.convert(amount.value, fromCurrency.value, toCurrency.value);
-      };
+    //   const convertCurrency = () => {
+    //     result.value = currencyStore.convert(amount.value, fromCurrency.value, toCurrency.value);
+    //   };
   
-      return {
-        amount,
-        fromCurrency,
-        toCurrency,
-        result,
-        currencies,
-        convertCurrency,
-      };
-    }
-  };
+  //     return {
+  //       amount,
+  //       fromCurrency,
+  //       toCurrency,
+  //       result,
+  //       currencies,
+  //       convertCurrency,
+  //     };
+  //   }
+  // };
   </script>
   
   <style scoped>
