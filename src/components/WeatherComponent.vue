@@ -10,7 +10,7 @@
     <button class="weather__button button" @click="handleGetCity" :disabled="!inputValue">Получить прогноз</button>
     <div class="weather__loading" v-if="isLoading">Загрузка...</div>
     <div class="weather__error" v-if="error">{{ error }}</div>
-    <div class="weather__content-wrapper" v-if="weatherData">
+    <div class="weather__content-wrapper" v-if="weatherData && !isLoading">
       <p class="weather__content">Погода в городе {{ inputValue }}:</p>
       <p class="weather__content">Температура: {{ Math.round(weatherData.main.temp) }} °C</p>
       <p class="weather__content">Ощущается как: {{ Math.round(weatherData.main.feels_like) }} °C</p>
@@ -36,6 +36,9 @@ const { isLoading, weatherData, error } = storeToRefs(weatherStore);
 
 <style scoped lang='scss'>
 .weather{
+  &__wrapper{
+    margin-top: 45px;
+  }
   &__input{
     font-size: 16px;
     font-weight: 400;
@@ -61,6 +64,12 @@ const { isLoading, weatherData, error } = storeToRefs(weatherStore);
     font-size: 16px;
     font-weight: 400;
     line-height: 1.2;
+    color: #444444;
+  }
+  &__loading{
+    margin-top: 80px;
+    font-size: 18px;
+    line-height: 1.3;
     color: #444444;
   }
 }
