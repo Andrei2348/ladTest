@@ -10,7 +10,7 @@
     <button class="weather__button button" @click="handleGetCity" :disabled="!inputValue">Получить прогноз</button>
     <div class="weather__loading" v-if="isLoading">Загрузка...</div>
     <div class="weather__error" v-if="error">{{ error }}</div>
-    <div class="weather__content-wrapper" v-if="weatherData && !isLoading">
+    <div class="weather__content-wrapper" v-if="weatherData">
       <p class="weather__content">Погода в городе {{ inputValue }}:</p>
       <p class="weather__content">Температура: {{ Math.round(weatherData.main.temp) }} °C</p>
       <p class="weather__content">Ощущается как: {{ Math.round(weatherData.main.feels_like) }} °C</p>
@@ -20,18 +20,21 @@
 </template>
   
 <script setup lang="ts">
-import { ref } from 'vue';
-import { storeToRefs } from 'pinia';
+import { ref, computed, watch } from 'vue';
 import { useWeatherStore } from '../store/useWeatherStore';
-const weatherStore = useWeatherStore();
+const userStore = useWeatherStore()
 
 const inputValue = ref<string>('');
 const handleGetCity = (): void => {
+  console.log(inputValue.value)
   if(inputValue.value.length > 0){
-    weatherStore.fetchWeather(inputValue.value);
+    userStore.fetchWeather(inputValue.value);
   }
 }
-const { isLoading, weatherData, error } = storeToRefs(weatherStore);
+const weatherData = computed(() => userStore.weatherData);
+const isLoading = computed(() => userStore.isLoading);
+const error = computed(() => userStore.error);
+
 </script>
 
 <style scoped lang='scss'>

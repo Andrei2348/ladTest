@@ -1,21 +1,7 @@
 <template>
   <div>
-    <CurrencySelector v-model="baseCurrency" />
-    <CurrencySelector v-model="quoteCurrency" />
-    <!-- <select v-model="baseCurrency">
-      <option value="USD">USD</option>
-      <option value="EUR">EUR</option>
-      <option value="BYN">BYN</option>
-      <option value="RUB">RUB</option>
-    </select>
-
-    <select v-model="quoteCurrency">
-      <option value="USD">USD</option>
-      <option value="EUR">EUR</option>
-      <option value="BYN">BYN</option>
-      <option value="RUB">RUB</option>
-    </select> -->
-
+    <CurrencySelector :currency='`baseCurrency`' />
+    <CurrencySelector :currency='`quoteCurrency`' />
     <input type="number" v-model="amount" placeholder="Количество">
     <span>{{ amount }} {{ baseCurrency }}</span> = {{ amount * exchangeRate }} {{ quoteCurrency }}
   </div>
@@ -24,19 +10,15 @@
 <script setup lang="ts">
 import { ref, watch, computed, ComputedRef } from 'vue';
 import { useCurrencyStore } from '../store/currencyStore';
-import CurrencySelector from './CurrencySelector.vue';
+import CurrencySelector from './UI/CurrencySelector.vue';
 
 const currencyStore = useCurrencyStore();
-const baseCurrency = ref<string>(currencyStore.baseCurrency);
-const quoteCurrency = ref<string>(currencyStore.quoteCurrency);
+const baseCurrency: ComputedRef<string> = computed(() => currencyStore.baseCurrency);
+const quoteCurrency: ComputedRef<string> = computed(() => currencyStore.quoteCurrency);
+const exchangeRate: ComputedRef<number> = computed(() => currencyStore.exchangeRate);
 const amount = ref<number>(1);
-
 watch([baseCurrency, quoteCurrency], () => {
-  currencyStore.baseCurrency = baseCurrency.value
-  currencyStore.quoteCurrency = quoteCurrency.value
+  console.log('changed')
   currencyStore.fetchExchangeRate();
 }, { immediate: true });
-
-
-const exchangeRate: ComputedRef<number> = computed(() => currencyStore.exchangeRate);
 </script>
