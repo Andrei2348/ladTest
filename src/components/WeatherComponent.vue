@@ -1,5 +1,6 @@
 <template>
   <div class="weather__wrapper">
+    <h2 class="weather__title">Прогноз погоды</h2>
     <input 
       class="weather__input" 
       v-model="inputValue" 
@@ -8,25 +9,29 @@
       placeholder="Введите название города"
       >
     <button class="weather__button button" @click="handleGetCity" :disabled="!inputValue">Получить прогноз</button>
-    <div class="weather__loading" v-if="isLoading">Загрузка...</div>
+    <Loader v-if="isLoading" />
     <div class="weather__error" v-if="error">{{ error }}</div>
-    <div class="weather__content-wrapper" v-if="weatherData">
-      <p class="weather__content">Погода в городе {{ inputValue }}:</p>
+    <div class="weather__content-wrapper" v-if="weatherData && !isLoading">
+      <p class="weather__content">Погода на сегодня в городе {{ inputValue.charAt(0).toUpperCase() + inputValue.slice(1)}}:</p>
       <p class="weather__content">Температура: {{ Math.round(weatherData.main.temp) }} °C</p>
       <p class="weather__content">Ощущается как: {{ Math.round(weatherData.main.feels_like) }} °C</p>
+      <p class="weather__content">Влажность: {{ weatherData.main.humidity }} %</p>
+      <p class="weather__content">Давление: {{ weatherData.main.pressure }} кПа</p>
       <p class="weather__content">{{ weatherData.weather[0].description.replace(/^./, weatherData.weather[0].description[0].toUpperCase()) }}</p>
     </div>
   </div>
 </template>
   
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue';
+import { ref, computed } from 'vue';
 import { useWeatherStore } from '../store/useWeatherStore';
+import Loader from '../components/UI/Loader.vue'
+
 const userStore = useWeatherStore()
 
 const inputValue = ref<string>('');
+
 const handleGetCity = (): void => {
-  console.log(inputValue.value)
   if(inputValue.value.length > 0){
     userStore.fetchWeather(inputValue.value);
   }
@@ -41,6 +46,13 @@ const error = computed(() => userStore.error);
 .weather{
   &__wrapper{
     margin-top: 45px;
+  }
+  &__title{
+    font-size: 24px;
+    line-height: 1.3;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 20px;
   }
   &__input{
     font-size: 16px;

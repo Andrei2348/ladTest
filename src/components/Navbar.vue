@@ -32,7 +32,20 @@
         line-height: 1.2;
         font-weight: 500;
         cursor: pointer;
+        position: relative;
     }
+    &__menu-item--link.router-link-active {
+		color: #f7f7f7;
+	}
+    &__menu-item--link.router-link-active::after {
+		position: absolute;
+        content: '';
+        height: 1px;
+        width: 100%;
+        background-color: #f7f7f7;
+        left: 0;
+        bottom: 0;
+	}
 }
 
 
