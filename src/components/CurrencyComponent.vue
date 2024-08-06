@@ -14,7 +14,7 @@
 
 <script setup lang="ts">
 import { ref, watch, computed, ComputedRef } from 'vue';
-import { useCurrencyStore } from '../store/currencyStore';
+import { useCurrencyStore } from '../store/useCurrencyStore';
 import CurrencySelector from './UI/CurrencySelector.vue';
 
 const currencyStore = useCurrencyStore();

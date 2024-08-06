@@ -9,7 +9,7 @@
   
 <script setup lang="ts">
   import { ref, watch } from 'vue';
-  import { useCurrencyStore } from '../../store/currencyStore';
+  import { useCurrencyStore } from '../../store/useCurrencyStore';
   const currencyStore = useCurrencyStore();
 
   const props = defineProps({
